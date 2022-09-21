@@ -1,13 +1,15 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+
+@layer components {
+
+  .note {
+      @apply bg-white w-full rounded-md p-4 space-y-4 h-fit hover:bg-blue-500/10 duration-200 hover:scale-y-[1.05] ease-in-out cursor-pointer;
+  }
+
+  .note-active {
+      @apply bg-blue-100 w-full rounded-md p-4 space-y-4 h-fit hover:bg-blue-500/10 duration-200 hover:scale-y-[1.05] ease-in-out cursor-pointer
+  }
 }
