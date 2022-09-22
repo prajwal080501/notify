@@ -1,10 +1,12 @@
 import './App.css';
 import Sidebar from './components/Sidebar';
 import Main from './components/Main';
-import { useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import uuid from "react-uuid"
-function App() {
 
+export const ThemeContext = createContext();
+function App() {
+  const [darkTheme, setDarkTheme] = useState(false);
   const [notes, setNotes] = useState(() => {
     const saved = localStorage.getItem("notes");
     const initalValue = JSON.parse(saved)
@@ -16,6 +18,12 @@ function App() {
     localStorage.setItem("notes", JSON.stringify(notes))
   }, [notes])
 
+  // Functions
+
+  const handleTheme = () => {
+    setDarkTheme(!darkTheme);
+    console.log(darkTheme)
+  }
 
   const onAddNote = () => {
     const newNote = {
@@ -48,10 +56,12 @@ function App() {
     setNotes(updatedNotesArray)
   }
   return (
-    <div className='flex flex-col md:flex-row'>
-      <Sidebar activeNote={activeNote} setActiveNote={setActiveNote} onAddNote={onAddNote} onDeleteNote={onDeleteNote} notes={notes} />
-      <Main onUpdateNote={onUpdateNote} activeNote={getActiveNote()} />
-    </div>
+    <ThemeContext.Provider value={darkTheme}>
+      <div className='flex flex-col md:flex-row'>
+        <Sidebar handleTheme={handleTheme} activeNote={activeNote} setActiveNote={setActiveNote} onAddNote={onAddNote} onDeleteNote={onDeleteNote} notes={notes} />
+        <Main onUpdateNote={onUpdateNote} activeNote={getActiveNote()} />
+      </div>
+    </ThemeContext.Provider>
   );
 }
 
