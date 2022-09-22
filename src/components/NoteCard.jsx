@@ -1,11 +1,11 @@
 import React from 'react'
 // onClick={() => setActiveNote(note.id)} className={`${note.id === activeNote ? "note-active" : "note"}`}
-const NoteCard = ({ notes,activeNote,setActiveNote, onDeleteNote, sortedNotes }) => {
+const NoteCard = ({ notes,activeNote,setActiveNote, onDeleteNote, sortedNotes, notifyDelete }) => {
 
     return (
         <div>
             {sortedNotes.map((note) => (
-                <div className={`${note.id === activeNote ? "note-active" : "note"}`} onClick={() => setActiveNote(note.id)}>
+                <div className={`${note.id === activeNote ? "note-active" : "note"}`} onClick={function(event){setActiveNote(note.id); notifyDelete();}}>
                     <p className='text-right text-red-400 hover:text-black duration-200 ease-linear' onClick={() => onDeleteNote(note.id)}>Delete</p>
                     <h2 className='text-2xl font-bold text-black text-left'>{note.title}</h2>
                     <p>{note.body && note.body.substr(0, 100) + '...'}</p>
