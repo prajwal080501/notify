@@ -5,13 +5,17 @@ import { useEffect, useState } from "react";
 import uuid from "react-uuid"
 function App() {
 
-  const [notes, setNotes] = useState(JSON.parse(localStorage.notes))
+  const [notes, setNotes] = useState(() => {
+    const saved = localStorage.getItem("notes");
+    const initalValue = JSON.parse(saved)
+    return initalValue || [];
+  });
   const [activeNote, setActiveNote] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("notes", JSON.stringify(notes))
   }, [notes])
-  
+
 
   const onAddNote = () => {
     const newNote = {
@@ -32,17 +36,17 @@ function App() {
     return notes.find((note) => note.id === activeNote)
   }
 
-const onUpdateNote = (updatedNote) => {
-  const updatedNotesArray = notes.map((note) => {
-    if(note.id === activeNote){
-      return updatedNote;
-    }
+  const onUpdateNote = (updatedNote) => {
+    const updatedNotesArray = notes.map((note) => {
+      if (note.id === activeNote) {
+        return updatedNote;
+      }
 
-    return note;
-  })
+      return note;
+    })
 
-  setNotes(updatedNotesArray)
-}
+    setNotes(updatedNotesArray)
+  }
   return (
     <div className='flex flex-col md:flex-row'>
       <Sidebar activeNote={activeNote} setActiveNote={setActiveNote} onAddNote={onAddNote} onDeleteNote={onDeleteNote} notes={notes} />
